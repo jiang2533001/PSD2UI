@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54fc36e9ad4f6d93f0c4c5d3610baf, type: 3}
+  m_Name: PSD2UI Settings
+  m_EditorClassIdentifier: 
+  designWidth: 1080
+  designHeight: 2400
+  RootPrefab: {fileID: 2037778023255368077, guid: 3219d0afb64f91a4b9fd3de54f0093ac, type: 3}
+  atlasPath: Assets/UI/Atlas2
+  texturePath: Assets/UI/Texture
+  defaultSpritePath: Assets/UI/Atlas2/Common/ImgWhite
+  fontPath: Assets/Resources/Font
+  prefabOutputPath: Assets/AssetBundle/UI/Prefab/Window
+  normalFonts:
+  - psFont: JingnanBoboHei-Bold
+    unityFont: JingnanBoboHei-Bold SDF
+  - psFont: MiSans-Medium
+    unityFont: MiSans-Medium SDF
+  - psFont: Fredoka-SemiBold
+    unityFont: Fredoka-SemiBold SDF
+  hdFonts:
+  - psFont: 
+    unityFont: 
+  fontMaterials: []
+  tiledImageTypeSpriteNameSuffixes: []
+  defaultUIBuilderRoot: {fileID: 11400000, guid: eb56bde658d660942928446a29bb0bac, type: 2}
+  defaultUIBuilderGroup: {fileID: 11400000, guid: 9d30dbf026d0a824f98fab0c7922a326, type: 2}
+  defaultUIBuilderText: {fileID: 11400000, guid: 115acbc9b08ef78469e6cd71f16ea496, type: 2}
+  defaultUIBuilderImage: {fileID: 11400000, guid: b049cbe206305094bb731c260187d919, type: 2}
+  defaultUIBuilderButton: {fileID: 11400000, guid: c3d1e97962280f14aaa19ea7c2216287, type: 2}
