@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 
-namespace NOAH.PSD2UI
+namespace Shimmer.PSD2UI
 {
     public class PsdImporter
     {

@@ -5,8 +5,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NOAH.PSD2UI
+namespace Shimmer.PSD2UI
 {
+
     public abstract class UIBuilderBase : ScriptableObject
     {
         [SerializeField] bool _autoNewGO = true;

@@ -1,23 +1,26 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(PsdInfo))]
-public class PsdInfoEditor : Editor
+namespace Shimmer.PSD2UI
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(PsdInfo))]
+    public class PsdInfoEditor : Editor
     {
-        DrawDefaultInspector();
-
-        PsdInfo info = target as PsdInfo;
-
-        if (GUILayout.Button("Create Reference Texture"))
+        public override void OnInspectorGUI()
         {
-            info.CreateReferenceTexture();
-        }
+            DrawDefaultInspector();
 
-        if (GUILayout.Button("Clear Reference Texture"))
-        { 
-            info.ClearReferenceTexture();
+            PsdInfo info = target as PsdInfo;
+
+            if (GUILayout.Button("Create Reference Texture"))
+            {
+                info.CreateReferenceTexture();
+            }
+
+            if (GUILayout.Button("Clear Reference Texture"))
+            {
+                info.ClearReferenceTexture();
+            }
         }
     }
 }

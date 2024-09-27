@@ -8,7 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-
+namespace Shimmer.PSD2UI
+{
     public class UguiTreeUpdater
     {
         public static void UpdateUI(GameObject source, GameObject target)
@@ -289,3 +290,4 @@ using Object = UnityEngine.Object;
             return target.transform;
         }
     }
+}

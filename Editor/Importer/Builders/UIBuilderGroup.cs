@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NOAH.PSD2UI
+namespace Shimmer.PSD2UI
 {
     [CreateAssetMenu(menuName = "UIBuilder/Group")]
     public class UIBuilderGroup : UIBuilderBase

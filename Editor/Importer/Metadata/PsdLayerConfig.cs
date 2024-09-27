@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
+namespace Shimmer.PSD2UI
+{
     public class ConfigTag
     {
         public const string None = "none";
@@ -18,7 +19,7 @@ using System.Collections.Generic;
         public const string ImageWidth = "imageWidth";
         public const string ImageHeight = "imageHeight";
         public const string Prefab = "prefab";
-        
+
         public const string IsSkipped = "isSkipped";
         public const string WidgetTypePropertyTag = "widgetType";
         public const string XAnchorPropertyTag = "xAnchor";
@@ -27,7 +28,7 @@ using System.Collections.Generic;
         public const string YPivotPropertyTag = "yPivot";
         public const string FontMaterial = "fontMaterial";
     }
-    
+
     public class PsdLayerConfig
     {
         private readonly Dictionary<string, string> _config = new Dictionary<string, string>();
@@ -93,3 +94,4 @@ using System.Collections.Generic;
             }
         }
     }
+}

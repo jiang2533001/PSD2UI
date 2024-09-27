@@ -2,7 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 
-
+namespace Shimmer.PSD2UI
+{
     [InitializeOnLoad]
     public class PsdHierarchy
     {
@@ -225,3 +226,4 @@ using UnityEngine;
             }
         }
     }
+}

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using UnityEditor;
 using TMPro;
 
-
+namespace Shimmer.PSD2UI
+{
     public class UguiTreeMigrator
     {
         public static void MigrateAppliedPrefabModification
@@ -104,8 +105,8 @@ using TMPro;
 
         private static void _CopyNonImportedComponents
         (
-            GameObject                       source,
-            GameObject                       target,
+            GameObject source,
+            GameObject target,
             Dictionary<Component, Component> componentMapping
         )
         {
@@ -148,8 +149,8 @@ using TMPro;
 
         private static void _AddPairedComponent<T>
         (
-            GameObject                       source,
-            GameObject                       target,
+            GameObject source,
+            GameObject target,
             Dictionary<Component, Component> pairDictionary
         )
             where T : Component
@@ -164,9 +165,9 @@ using TMPro;
 
         private static void _RetargetObjectReference
         (
-            GameObject                         targetGameObjectRoot,
+            GameObject targetGameObjectRoot,
             Dictionary<GameObject, GameObject> gameObjectMapping,
-            Dictionary<Component, Component>   componentMapping
+            Dictionary<Component, Component> componentMapping
         )
         {
             Component[] allTargetComponents = targetGameObjectRoot.GetComponentsInChildren<Component>();
@@ -178,9 +179,9 @@ using TMPro;
 
         private static void _RetargetObjectReferenceOnComponent
         (
-            Component                          targetComponent,
+            Component targetComponent,
             Dictionary<GameObject, GameObject> gameObjectMapping,
-            Dictionary<Component, Component>   componentMapping
+            Dictionary<Component, Component> componentMapping
         )
         {
             var targetSerializedObject = new SerializedObject(targetComponent);
@@ -218,3 +219,4 @@ using TMPro;
             targetSerializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
     }
+}

@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
-namespace NOAH.PSD2UI
+namespace Shimmer.PSD2UI
 {
     [CreateAssetMenu(menuName = "UIBuilder/Text")]
     public class UIBuilderText : UIBuilderBase

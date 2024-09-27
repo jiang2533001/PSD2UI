@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NOAH.PSD2UI
+namespace Shimmer.PSD2UI
 {
     public class UINodeData
     {
@@ -43,10 +43,11 @@ namespace NOAH.PSD2UI
         public List<UINodeData> Children = new List<UINodeData>();
 
         public void BindParent(UINodeData parent, GameObject go)
-        { 
+        {
             ParentRect = parent.Rect;
             HorizontalPixelPerInch = parent.HorizontalPixelPerInch;
             ParentGO = go;
         }
     }
 }
+

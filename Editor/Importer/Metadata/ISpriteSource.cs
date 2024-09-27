@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-
+namespace Shimmer.PSD2UI
+{
     public interface ISpriteSource
     {
         Sprite GetSprite();
@@ -39,3 +40,4 @@ using UnityEditor;
             return AssetDatabase.LoadAssetAtPath<Sprite>(_spritePath);
         }
     }
+}

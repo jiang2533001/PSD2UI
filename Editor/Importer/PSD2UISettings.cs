@@ -4,159 +4,160 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
-using NOAH.PSD2UI;
-using UnityEngine.WSA;
 
-[CreateAssetMenu(fileName = "PSD2UI Settings")]
-public class PSD2UISettings : ScriptableObject
+namespace Shimmer.PSD2UI
 {
-    private static PSD2UISettings _instance;
-    public static PSD2UISettings Instance
+    [CreateAssetMenu(fileName = "PSD2UI Settings")]
+    public class PSD2UISettings : ScriptableObject
     {
-        get
+        private static PSD2UISettings _instance;
+        public static PSD2UISettings Instance
         {
-            if (_instance == null)
+            get
             {
-                var guid = AssetDatabase.FindAssets("t:PSD2UISettings").FirstOrDefault();
-                if (guid == null)
+                if (_instance == null)
                 {
-                    Debug.LogWarning($"Create new PSD2UISettings.asset");
+                    var guid = AssetDatabase.FindAssets("t:PSD2UISettings").FirstOrDefault();
+                    if (guid == null)
+                    {
+                        Debug.LogWarning($"Create new PSD2UISettings.asset");
 
-                    _instance = CreateSettingData<PSD2UISettings>();
+                        _instance = CreateSettingData<PSD2UISettings>();
 
-                    _instance.defaultUIBuilderRoot = CreateSettingData<UIBuilderRoot>("UIBuilders");
-                    _instance.defaultUIBuilderGroup = CreateSettingData<UIBuilderGroup>("UIBuilders");
-                    _instance.defaultUIBuilderText = CreateSettingData<UIBuilderText>("UIBuilders");
-                    _instance.defaultUIBuilderImage = CreateSettingData<UIBuilderImage>("UIBuilders");
-                    _instance.defaultUIBuilderButton = CreateSettingData<UIBuilderButton>("UIBuilders");
+                        _instance.defaultUIBuilderRoot = CreateSettingData<UIBuilderRoot>("UIBuilders");
+                        _instance.defaultUIBuilderGroup = CreateSettingData<UIBuilderGroup>("UIBuilders");
+                        _instance.defaultUIBuilderText = CreateSettingData<UIBuilderText>("UIBuilders");
+                        _instance.defaultUIBuilderImage = CreateSettingData<UIBuilderImage>("UIBuilders");
+                        _instance.defaultUIBuilderButton = CreateSettingData<UIBuilderButton>("UIBuilders");
 
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
+                        AssetDatabase.SaveAssets();
+                        AssetDatabase.Refresh();
 
-                    return _instance;
+                        return _instance;
+                    }
+
+                    _instance = AssetDatabase.LoadAssetAtPath<PSD2UISettings>(AssetDatabase.GUIDToAssetPath(guid));
                 }
 
-                _instance = AssetDatabase.LoadAssetAtPath<PSD2UISettings>(AssetDatabase.GUIDToAssetPath(guid));
+                return _instance;
             }
-
-            return _instance;
         }
-    }
 
-    [Header("必填")]
-    public int designWidth = 1080;
-    public int designHeight = 1920;
-    public GameObject RootPrefab;
-    public string atlasPath = "Assets/Resouces/UI/Atlas";
-    public string texturePath = "Assets/Resources/UI/Texture";
-    public string defaultSpritePath;
-    public string fontPath = "Assets/Resources/UI/Font";
-    [HideInInspector]
-    public string prefabOutputPath = "Assets/Resources/UI/Prefabs";
-    public List<FontPair> normalFonts;
-    public UIBuilderBase defaultUIBuilderRoot;
-    public UIBuilderBase defaultUIBuilderGroup;
-    public UIBuilderBase defaultUIBuilderText;
-    public UIBuilderBase defaultUIBuilderImage;
-    public UIBuilderBase defaultUIBuilderButton;
+        [Header("必填")]
+        public int designWidth = 1080;
+        public int designHeight = 1920;
+        public GameObject RootPrefab;
+        public string atlasPath = "Assets/Resouces/UI/Atlas";
+        public string texturePath = "Assets/Resources/UI/Texture";
+        public string defaultSpritePath;
+        public string fontPath = "Assets/Resources/UI/Font";
+        [HideInInspector]
+        public string prefabOutputPath = "Assets/Resources/UI/Prefabs";
+        public List<FontPair> normalFonts;
+        public UIBuilderBase defaultUIBuilderRoot;
+        public UIBuilderBase defaultUIBuilderGroup;
+        public UIBuilderBase defaultUIBuilderText;
+        public UIBuilderBase defaultUIBuilderImage;
+        public UIBuilderBase defaultUIBuilderButton;
 
-    [Header("选填")]
-    public List<FontPair> hdFonts;
-    public List<string> fontMaterials;
-    public List<string> tiledImageTypeSpriteNameSuffixes;
+        [Header("选填")]
+        public List<FontPair> hdFonts;
+        public List<string> fontMaterials;
+        public List<string> tiledImageTypeSpriteNameSuffixes;
 
-    public string PsdInput
-    {
-        get
+        public string PsdInput
         {
-            if (string.IsNullOrEmpty(m_psdInput))
+            get
             {
-                var d = new DirectoryInfo(Directory.GetCurrentDirectory());
-                m_psdInput = d.Parent.FullName.Replace("\\", "/");
+                if (string.IsNullOrEmpty(m_psdInput))
+                {
+                    var d = new DirectoryInfo(Directory.GetCurrentDirectory());
+                    m_psdInput = d.Parent.FullName.Replace("\\", "/");
+                }
+
+                return m_psdInput;
+            }
+        }
+
+        public string PrefabOutput =>
+            // if (string.IsNullOrEmpty(prefabOutput))
+            // {
+            //     return "Assets/AssetBundle/UI/Prefab/Window";
+            // }
+            prefabOutputPath;
+
+        string m_psdInput;
+
+        public string GetPsdPath(string psd)
+        {
+            return Path.Combine(PsdInput, psd);
+        }
+
+        public string GetFontMaterial(string fontName, string effectName)
+        {
+            if (fontMaterials.Find(f => string.Equals(f, effectName)) != null)
+                return fontName + "_" + effectName;
+            return null;
+        }
+
+        public string GetFont(string psFont, int fontSize)
+        {
+            string ret;
+            if (fontSize >= 60 && hdFonts.Count > 0)
+            {
+                ret = FindFont(hdFonts, psFont);
+
+                if (string.IsNullOrEmpty(ret))
+                {
+                    Debug.LogError($"PSD2UISettings: cant find matching font from PSD def in hdFonts:\"{psFont}\" size:{fontSize}");
+                }
+
+                return ret;
             }
 
-            return m_psdInput;
-        }
-    }
-
-    public string PrefabOutput =>
-        // if (string.IsNullOrEmpty(prefabOutput))
-        // {
-        //     return "Assets/AssetBundle/UI/Prefab/Window";
-        // }
-        prefabOutputPath;
-
-    string m_psdInput;
-
-    public string GetPsdPath(string psd)
-    {
-        return Path.Combine(PsdInput, psd);
-    }
-
-    public string GetFontMaterial(string fontName, string effectName)
-    {
-        if (fontMaterials.Find(f => string.Equals(f, effectName)) != null)
-            return fontName + "_" + effectName;
-        return null;
-    }
-
-    public string GetFont(string psFont, int fontSize)
-    {
-        string ret;
-        if (fontSize >= 60 && hdFonts.Count > 0)
-        {
-            ret = FindFont(hdFonts, psFont);
-
+            ret = FindFont(normalFonts, psFont);
             if (string.IsNullOrEmpty(ret))
             {
-                Debug.LogError($"PSD2UISettings: cant find matching font from PSD def in hdFonts:\"{psFont}\" size:{fontSize}");
+                Debug.LogError($"PSD2UISettings: cant find matching font from PSD def in normalFonts:\"{psFont}\" size:{fontSize}");
             }
 
             return ret;
         }
 
-        ret = FindFont(normalFonts, psFont);
-        if (string.IsNullOrEmpty(ret))
+        string FindFont(List<FontPair> pairs, string font)
         {
-            Debug.LogError($"PSD2UISettings: cant find matching font from PSD def in normalFonts:\"{psFont}\" size:{fontSize}");
+            var data = pairs.Find(p => p.psFont == font);
+            if (data != null)
+                return data.unityFont;
+
+            return null;
         }
 
-        return ret;
-    }
 
-    string FindFont(List<FontPair> pairs, string font)
-    {
-        var data = pairs.Find(p => p.psFont == font);
-        if (data != null)
-            return data.unityFont;
-
-        return null;
-    }
-
-
-    static T CreateSettingData<T>(string folder = "") where T : ScriptableObject
-    {
-        var settingType = typeof(T);
-        var setting = ScriptableObject.CreateInstance<T>();
-
-        var path = "Assets";
-        if (folder != "")
+        static T CreateSettingData<T>(string folder = "") where T : ScriptableObject
         {
-            path = $"Assets/{folder}";
-            if (!AssetDatabase.IsValidFolder(path))
-            AssetDatabase.CreateFolder("Assets", folder);
+            var settingType = typeof(T);
+            var setting = ScriptableObject.CreateInstance<T>();
+
+            var path = "Assets";
+            if (folder != "")
+            {
+                path = $"Assets/{folder}";
+                if (!AssetDatabase.IsValidFolder(path))
+                    AssetDatabase.CreateFolder("Assets", folder);
+            }
+
+            string filePath = $"{path}/{settingType.Name}.asset";
+            AssetDatabase.CreateAsset(setting, filePath);
+
+            return setting;
         }
-
-        string filePath = $"{path}/{settingType.Name}.asset";
-        AssetDatabase.CreateAsset(setting, filePath);
-
-        return setting;
     }
-}
 
-[Serializable]
-public class FontPair
-{
-    public string psFont;
-    public string unityFont;
+    [Serializable]
+    public class FontPair
+    {
+        public string psFont;
+        public string unityFont;
+    }
 }

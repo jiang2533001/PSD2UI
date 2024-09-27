@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-
+namespace Shimmer.PSD2UI
+{
     public class PsdUIValidator : AssetPostprocessor
     {
         static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
@@ -50,5 +51,5 @@ using UnityEngine;
             }
         }
     }
-
+}
 #endif

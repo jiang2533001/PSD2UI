@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
-
+namespace Shimmer.PSD2UI
+{
     public class PsdLayerConfigSet
     {
         private readonly Dictionary<int, PsdLayerConfig> _layerConfigList =
@@ -23,3 +24,4 @@
             return hasConfig ? config : new PsdLayerConfig();
         }
     }
+}
