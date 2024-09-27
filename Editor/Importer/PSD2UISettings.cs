@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 using NOAH.PSD2UI;
+using UnityEngine.WSA;
 
 [CreateAssetMenu(fileName = "PSD2UI Settings")]
 public class PSD2UISettings : ScriptableObject
@@ -19,13 +20,18 @@ public class PSD2UISettings : ScriptableObject
                 var guid = AssetDatabase.FindAssets("t:PSD2UISettings").FirstOrDefault();
                 if (guid == null)
                 {
-                     _instance = CreateInstance<PSD2UISettings>();
+                    Debug.LogWarning($"Create new PSD2UISettings.asset");
 
-                    _instance.defaultUIBuilderRoot = CreateInstance<UIBuilderRoot>();
-                    _instance.defaultUIBuilderGroup = CreateInstance<UIBuilderGroup>();
-                    _instance.defaultUIBuilderText = CreateInstance<UIBuilderText>();
-                    _instance.defaultUIBuilderImage = CreateInstance<UIBuilderImage>();
-                    _instance.defaultUIBuilderButton = CreateInstance<UIBuilderButton>();
+                    _instance = CreateSettingData<PSD2UISettings>();
+
+                    _instance.defaultUIBuilderRoot = CreateSettingData<UIBuilderRoot>("UIBuilders");
+                    _instance.defaultUIBuilderGroup = CreateSettingData<UIBuilderGroup>("UIBuilders");
+                    _instance.defaultUIBuilderText = CreateSettingData<UIBuilderText>("UIBuilders");
+                    _instance.defaultUIBuilderImage = CreateSettingData<UIBuilderImage>("UIBuilders");
+                    _instance.defaultUIBuilderButton = CreateSettingData<UIBuilderButton>("UIBuilders");
+
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
 
                     return _instance;
                 }
@@ -125,6 +131,26 @@ public class PSD2UISettings : ScriptableObject
             return data.unityFont;
 
         return null;
+    }
+
+
+    static T CreateSettingData<T>(string folder = "") where T : ScriptableObject
+    {
+        var settingType = typeof(T);
+        var setting = ScriptableObject.CreateInstance<T>();
+
+        var path = "Assets";
+        if (folder != "")
+        {
+            path = $"Assets/{folder}";
+            if (!AssetDatabase.IsValidFolder(path))
+            AssetDatabase.CreateFolder("Assets", folder);
+        }
+
+        string filePath = $"{path}/{settingType.Name}.asset";
+        AssetDatabase.CreateAsset(setting, filePath);
+
+        return setting;
     }
 }
 
