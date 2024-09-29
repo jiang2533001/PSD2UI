@@ -32,7 +32,7 @@ namespace Shimmer.PSD2UI
             {
                 go = Instantiate(PSD2UISettings.Instance.RootPrefab);
                 go.name = data.Name;
-                GetBuilder(UINodeType.Root).OnProcess(data, go);
+                GetBuilder(UINodeType.Root)?.OnProcess(data, go);
             }
             else
             {
@@ -192,7 +192,7 @@ namespace Shimmer.PSD2UI
             {
                 var child = data.Children[i];
                 child.BindParent(data, parent);
-                GetBuilder(child.Type).Process(child);
+                GetBuilder(child.Type)?.Process(child);
             }
         }
 

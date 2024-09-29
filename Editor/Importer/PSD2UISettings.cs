@@ -47,10 +47,10 @@ namespace Shimmer.PSD2UI
         public int designWidth = 1080;
         public int designHeight = 1920;
         public GameObject RootPrefab;
-        public string atlasPath = "Assets/Resouces/UI/Atlas";
+        public string atlasPath = "Assets/Resources/UI/Atlas";
         public string texturePath = "Assets/Resources/UI/Texture";
         public string defaultSpritePath;
-        public string fontPath = "Assets/Resources/UI/Font";
+        public string fontPath = "Assets/Resources/Font";
         [HideInInspector]
         public string prefabOutputPath = "Assets/Resources/UI/Prefabs";
         public List<FontPair> normalFonts;
