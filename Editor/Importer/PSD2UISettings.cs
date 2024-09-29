@@ -24,11 +24,11 @@ namespace Shimmer.PSD2UI
 
                         _instance = CreateSettingData<PSD2UISettings>();
 
-                        _instance.defaultUIBuilderRoot = CreateSettingData<UIBuilderRoot>("UIBuilders");
-                        _instance.defaultUIBuilderGroup = CreateSettingData<UIBuilderGroup>("UIBuilders");
-                        _instance.defaultUIBuilderText = CreateSettingData<UIBuilderText>("UIBuilders");
-                        _instance.defaultUIBuilderImage = CreateSettingData<UIBuilderImage>("UIBuilders");
-                        _instance.defaultUIBuilderButton = CreateSettingData<UIBuilderButton>("UIBuilders");
+                        _instance.defaultUIBuilderRoot = CreateUIBuilder<UIBuilderRoot>("Root");
+                        _instance.defaultUIBuilderGroup = CreateUIBuilder<UIBuilderGroup>("Group");
+                        _instance.defaultUIBuilderText = CreateUIBuilder<UIBuilderText>("Text");
+                        _instance.defaultUIBuilderImage = CreateUIBuilder<UIBuilderImage>("Image");
+                        _instance.defaultUIBuilderButton = CreateUIBuilder<UIBuilderButton>("Button");
 
                         AssetDatabase.SaveAssets();
                         AssetDatabase.Refresh();
@@ -151,6 +151,15 @@ namespace Shimmer.PSD2UI
             AssetDatabase.CreateAsset(setting, filePath);
 
             return setting;
+        }
+
+        static T CreateUIBuilder<T>(string name) where T : UIBuilderBase
+        { 
+            var target = ScriptableObject.CreateInstance<T>();
+            target.name = name;
+            AssetDatabase.AddObjectToAsset(target, _instance);
+
+            return target;
         }
     }
 

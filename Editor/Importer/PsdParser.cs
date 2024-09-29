@@ -298,7 +298,7 @@ namespace Shimmer.PSD2UI
             }
             else
             {
-                if (layer.Name.EndsWith('@'))
+                if (layer.Name.StartsWith('@'))
                 {
                     return UINodeType.Button;
                 }
